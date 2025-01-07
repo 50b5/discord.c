@@ -1,7 +1,7 @@
 #ifndef DISCORD_HTTP_H
 #define DISCORD_HTTP_H
 
-#include "map.h"
+#include "c-utils/map.h"
 
 #include "snowflake.h"
 #include "state.h"
