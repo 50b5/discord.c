@@ -9,7 +9,7 @@ DEBUGFLAGS = -Og -ggdb -DDEBUG \
              -fno-omit-frame-pointer
 
 CFLAGS = -std=c18 -pedantic -Wall -Wextra -Werror $(IGNORE) $(DEBUGFLAGS)
-INCLUDES = -I/usr/local/include -I/usr/include -I. -I../c-utils
+INCLUDES = -I/usr/local/include -I/usr/include -I. -I..
 
 LDFLAGS = -L/usr/local/lib -L/usr/lib64 -L. -L../c-utils
 LDLIBS = -lcutils -lpthread -lcurl -ljson-c -lwebsockets

@@ -1,7 +1,7 @@
 #include "http.h"
 
-#include "log.h"
-#include "str.h"
+#include "c-utils/log.h"
+#include "c-utils/str.h"
 
 #include <stdlib.h>
 #include <time.h>
