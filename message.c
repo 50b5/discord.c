@@ -41,32 +41,47 @@ static bool construct_message_reference(discord_message *message, json_object *d
 
     bool success = true;
 
-    json_object *obj = json_object_object_get(data, "message_id");
-    const char *objstr = json_object_get_string(obj);
-    success = snowflake_from_string(objstr, &message->reference->message_id);
+    json_object *obj = json_object_object_get(data, "type");
+    message->reference->type = json_object_get_int(obj);
 
-    if (!success){
-        return false;
+    obj = json_object_object_get(data, "message_id");
+
+    if (obj){
+        const char *objstr = json_object_get_string(obj);
+        success = snowflake_from_string(objstr, &message->reference->message_id);
+
+        if (!success){
+            return false;
+        }
     }
 
     obj = json_object_object_get(data, "channel_id");
-    objstr = json_object_get_string(obj);
-    success = snowflake_from_string(objstr, &message->reference->channel_id);
 
-    if (!success){
-        return false;
+    if (obj){
+        const char *objstr = json_object_get_string(obj);
+        success = snowflake_from_string(objstr, &message->reference->channel_id);
+
+        if (!success){
+            return false;
+        }
     }
 
     obj = json_object_object_get(data, "guild_id");
-    objstr = json_object_get_string(obj);
-    success = snowflake_from_string(objstr, &message->reference->guild_id);
 
-    if (!success){
-        return false;
+    if (obj){
+        const char *objstr = json_object_get_string(obj);
+        success = snowflake_from_string(objstr, &message->reference->guild_id);
+
+        if (!success){
+            return false;
+        }
     }
 
     obj = json_object_object_get(data, "fail_if_not_exists");
-    message->reference->fail_if_not_exists = json_object_get_boolean(obj);
+
+    if (obj){
+        message->reference->fail_if_not_exists = json_object_get_boolean(obj);
+    }
 
     return success;
 }

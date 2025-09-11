@@ -4,6 +4,7 @@
 #include "state.h"
 
 typedef struct discord_message_reference {
+    int type;
     snowflake message_id;
     snowflake channel_id;
     snowflake guild_id;
