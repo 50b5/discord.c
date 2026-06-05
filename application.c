@@ -37,7 +37,7 @@ static bool construct_application(discord_application *application){
             application->name = json_object_get_string(valueobj);
         }
         else if (!strcmp(key, "icon")){
-            application->name = json_object_get_string(valueobj);
+            application->icon = json_object_get_string(valueobj);
         }
         else if (!strcmp(key, "description")){
             application->description = json_object_get_string(valueobj);
