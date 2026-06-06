@@ -42,17 +42,17 @@ static bool construct_embed_fields_from_json(discord_embed *embed, json_object *
         }
 
         json_object *obj = json_object_object_get(valueobj, "name");
-        field->name = json_object_get_string(valueobj);
+        field->name = json_object_get_string(obj);
 
         obj = json_object_object_get(valueobj, "value");
-        field->value = json_object_get_string(valueobj);
+        field->value = json_object_get_string(obj);
 
         obj = json_object_object_get(valueobj, "inline");
         field->display_inline = json_object_get_boolean(obj);
 
         list_item item = {0};
         item.type = L_TYPE_GENERIC;
-        item.size = sizeof(field);
+        item.size = sizeof(*field);
         item.data = field;
 
         success = list_append(embed->fields, &item);
