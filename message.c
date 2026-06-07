@@ -289,13 +289,13 @@ static bool construct_message_mention_channels(discord_message *message, json_ob
         item.size = sizeof(*cmention);
         item.data = cmention;
 
-        success = list_append(message->mention_roles, &item);
+        success = list_append(message->mention_channels, &item);
 
         if (!success){
             log_write(
                 logger,
                 LOG_ERROR,
-                "[%s] construct_message_mention_roles() - list_append call failed\n",
+                "[%s] construct_message_mention_channels() - list_append call failed\n",
                 __FILE__
             );
 
@@ -942,7 +942,7 @@ static bool set_reply_json_embeds(json_object *replyobj, const discord_embed *em
             break;
         }
 
-        if (json_object_array_add(embedsobj, embed->raw_object)){
+        if (json_object_array_add(embedsobj, copy)){
             log_write(
                 logger,
                 LOG_ERROR,

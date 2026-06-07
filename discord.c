@@ -239,7 +239,7 @@ bool discord_modify_presence(discord *client, const time_t *since, const list *a
         log_write(
             logger,
             LOG_ERROR,
-            "[%s] discord_set_presence() - client is NULL\n",
+            "[%s] discord_modify_presence() - client is NULL\n",
             __FILE__
         );
 
