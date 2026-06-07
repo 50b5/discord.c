@@ -98,7 +98,7 @@ static bool construct_application(discord_application *application){
         }
         else if (!strcmp(key, "install_params")){
             if (!application->install_params){
-                application->install_params = malloc(sizeof(*application->install_params));
+                application->install_params = calloc(1, sizeof(*application->install_params));
 
                 if (!application->install_params){
                     log_write(
@@ -223,7 +223,7 @@ void application_free(void *applicationptr){
     json_object_put(application->raw_object);
 
     if (application->install_params){
-        list_free(application->install_params);
+        list_free(application->install_params->scopes);
         free(application->install_params);
     }
 
