@@ -371,7 +371,7 @@ bool state_set_presence_status(discord_state *state, const char *status){
             log_write(
                 logger,
                 LOG_WARNING,
-                "[%s] state_set_presence_status() - valid statuses are invisible, idle, dnd, online\n",
+                "[%s] state_set_presence_status() - invalid status %s -- valid statuses are offline, invisible, idle, dnd, online\n",
                 __FILE__,
                 status
             );
