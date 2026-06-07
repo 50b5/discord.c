@@ -496,6 +496,16 @@ size_t embed_get_length(const discord_embed *embed){
 
         return 0;
     }
+    else if (!embed->title || !embed->description){
+        log_write(
+            logger,
+            LOG_WARNING,
+            "[%s] embed_get_length() - embed title and/or description is NULL\n",
+            __FILE__
+        );
+
+        return 0;
+    }
 
     size_t length = strlen(embed->title) + strlen(embed->description);
 

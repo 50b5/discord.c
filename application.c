@@ -222,6 +222,11 @@ void application_free(void *applicationptr){
 
     json_object_put(application->raw_object);
 
+    if (application->install_params){
+        list_free(application->install_params);
+        free(application->install_params);
+    }
+
     list_free(application->rpc_origins);
     list_free(application->tags);
 

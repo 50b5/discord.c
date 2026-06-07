@@ -49,7 +49,7 @@ static bool construct_activity_buttons_from_json(discord_activity *activity, jso
 
         list_item item = {0};
         item.type = L_TYPE_GENERIC;
-        item.size = sizeof(button);
+        item.size = sizeof(*button);
         item.data = button;
 
         success = list_append(activity->buttons, &item);
@@ -258,10 +258,21 @@ static bool construct_activity_from_json(discord_activity *activity){
         json_object_iter_next(&curr);
     }
 
-    return true;
+    return success;
 }
 
 discord_activity_type activity_type_from_string(const char *input){
+    if (!input){
+        log_write(
+            logger,
+            LOG_WARNING,
+            "[%s] activity_type_from_string() - input is NULL\n",
+            __FILE__
+        );
+
+        return 0;
+    }
+
     discord_activity_type type = 0;
 
     if (!strcmp(input, "playing") || !strcmp(input, "game")){
