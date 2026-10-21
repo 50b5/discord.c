@@ -417,7 +417,7 @@ static bool set_request_method(CURL *handle, discord_http_method method, const d
     CURLcode err = CURLE_FAILED_INIT;
 
     if (!opts || !opts->data){
-        err = curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE, 0);
+        err = curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE, 0L);
 
         if (err != CURLE_OK){
             log_write(
@@ -460,7 +460,7 @@ static bool set_request_method(CURL *handle, discord_http_method method, const d
 
     switch (method){
     case DISCORD_HTTP_GET:
-        err = curl_easy_setopt(handle, CURLOPT_HTTPGET, 1);
+        err = curl_easy_setopt(handle, CURLOPT_HTTPGET, 1L);
 
         if (err != CURLE_OK){
             log_write(
@@ -505,7 +505,7 @@ static bool set_request_method(CURL *handle, discord_http_method method, const d
 
         break;
     case DISCORD_HTTP_POST:
-        err = curl_easy_setopt(handle, CURLOPT_POST, 1);
+        err = curl_easy_setopt(handle, CURLOPT_POST, 1L);
 
         if (err != CURLE_OK){
             log_write(
@@ -520,7 +520,7 @@ static bool set_request_method(CURL *handle, discord_http_method method, const d
 
         break;
     case DISCORD_HTTP_PUT:
-        err = curl_easy_setopt(handle, CURLOPT_UPLOAD, 1);
+        err = curl_easy_setopt(handle, CURLOPT_UPLOAD, 1L);
 
         if (err != CURLE_OK){
             log_write(

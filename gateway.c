@@ -1192,41 +1192,15 @@ bool gateway_connect(discord_gateway *gateway){
         return false;
     }
 
-    char *endpoint = string_duplicate(gateway->endpoint);
+    lws_parse_uri_t *endpointuri = lws_parse_uri_create(gateway->endpoint);
 
-    if (!endpoint){
+    if (!endpointuri){
         log_write(
             logger,
             LOG_ERROR,
-            "[%s] gateway_connect() - endpoint string alloc failed\n",
+            "[%s] gateway_connect() - lws_parse_uri_create call failed\n",
             __FILE__
         );
-
-        return false;
-    }
-
-    const char *protocol = NULL;
-    const char *address = NULL;
-    int port = 0;
-    const char *path = NULL;
-
-    int err = lws_parse_uri(
-        endpoint,
-        &protocol,
-        &address,
-        &port,
-        &path
-    );
-
-    if (err){
-        log_write(
-            logger,
-            LOG_ERROR,
-            "[%s] gateway_connect() - lws_parse_uri call failed\n",
-            __FILE__
-        );
-
-        free(endpoint);
 
         return false;
     }
@@ -1234,11 +1208,11 @@ bool gateway_connect(discord_gateway *gateway){
     struct lws_client_connect_info conninfo = {0};
     conninfo.context = gateway->context;
     conninfo.protocol = lwsprotocols[0].name;
-    conninfo.address = address;
+    conninfo.address = endpointuri->host;
     conninfo.port = DISCORD_GATEWAY_PORT;
-    conninfo.path = path;
-    conninfo.origin = address;
-    conninfo.host = address;
+    conninfo.path = endpointuri->path;
+    conninfo.origin = endpointuri->host;
+    conninfo.host = endpointuri->host;
     conninfo.ssl_connection = LCCSCF_USE_SSL;
     conninfo.pwsi = &gateway->wsi;
 
@@ -1247,15 +1221,15 @@ bool gateway_connect(discord_gateway *gateway){
         LOG_DEBUG,
         "[%s] gateway_connect() - connecting to %s://%s:%d/%s\n",
         __FILE__,
-        protocol,
-        address,
-        port,
-        path
+        endpointuri->scheme,
+        endpointuri->host,
+        endpointuri->port,
+        endpointuri->path
     );
 
     struct lws *wsi = lws_client_connect_via_info(&conninfo);
 
-    free(endpoint);
+    lws_parse_uri_destroy(&endpointuri);
 
     if (!wsi){
         log_write(
